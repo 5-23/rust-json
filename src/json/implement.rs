@@ -36,3 +36,16 @@ impl std::fmt::Debug for Json{
         }
     }
 }
+
+impl std::ops::Index<&str> for Json{
+    type Output = Type;
+    fn index(&self, index: &str) -> &Self::Output {
+        self.hash.get(index).unwrap()
+    }
+}
+
+impl std::ops::IndexMut<&str> for Json{
+    fn index_mut(&mut self, index: &str) -> &mut Self::Output {
+        &mut *self.hash.get_mut(index).unwrap()
+    }
+}

@@ -6,7 +6,7 @@ use json::types::*;
 use json::implement::*;
 
 fn main(){
-    let a = json! {
+    let mut a = json! {
         "a": 1,
         "b": true,
         "c": {
@@ -16,6 +16,7 @@ fn main(){
         "arr": [1, 2],
         "null": null
     };
-
+    a["a"] = 1000.to_json_type();
     println!("{a:#?}");
+    println!("a: {:?}", a["a"]);
 }
