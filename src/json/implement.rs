@@ -26,7 +26,6 @@ impl ToJsonType<String> for Json{
     }
 }
 
-
 impl std::fmt::Debug for Json{
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         if f.alternate(){
@@ -43,6 +42,16 @@ impl std::ops::Index<&str> for Json{
         self.hash.get(index).unwrap()
     }
 }
+
+/// TODO: unwrap_or make
+
+// impl std::ops::Index<(&str, Type)> for Json{
+//     type Output = Type;
+//     fn index(&self, index: (&str, Type)) -> &Self::Output {
+//         let index_clone = index.clone();
+//         self.hash.get(index_clone.0).unwrap_or(index.1)
+//     }
+// }
 
 impl std::ops::IndexMut<&str> for Json{
     fn index_mut(&mut self, index: &str) -> &mut Self::Output {
