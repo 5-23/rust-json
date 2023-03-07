@@ -5,6 +5,7 @@ use super::implement::Json;
 pub enum Type{
     Null,
     Int(i128),
+    Float(f64),
     String(String),
     Bool(bool),
     Json(HashMap<&'static str, Type>),
@@ -18,6 +19,7 @@ impl std::fmt::Debug for Type{
             match self {
                 Self::Bool(v) => write!(f, "{v:?}"),
                 Self::Int(v) => write!(f, "{v:?}"),
+                Self::Float(v) => write!(f, "{v:?}"),
                 Self::String(v) => write!(f, "{v:?}"),
                 Self::Json(v) => write!(f, "{:#?}", v),
                 Self::Array(v) => {
@@ -29,6 +31,7 @@ impl std::fmt::Debug for Type{
             match self {
                 Self::Bool(v) => write!(f, "{v:?}"),
                 Self::Int(v) => write!(f, "{v:?}"),
+                Self::Float(v) => write!(f, "{v:?}"),
                 Self::String(v) => write!(f, "{v:?}"),
                 Self::Json(v) => write!(f, "{:?}", v),
                 Self::Array(v) => {
@@ -87,6 +90,17 @@ impl ToJsonType<Vec<Type>> for Vec<Type>{
     }
 }
 
+impl ToJsonType<f32> for f32{
+    fn to_json_type(&self) -> Type {
+        Type::Float(*self as f64)
+    }
+}
+impl ToJsonType<f64> for f64{
+    fn to_json_type(&self) -> Type {
+        Type::Float(*self)
+    }
+}
+
 
 
 impl Transform<String> for Type{
@@ -104,6 +118,18 @@ impl Transform<&str> for Type{
 impl Transform<bool> for Type{
     fn transform(value: bool) -> Self {
         Self::Bool(value)
+    }
+}
+
+impl Transform<f32> for Type{
+    fn transform(value: f32) -> Self {
+        Self::Float(value as f64)
+    }
+}
+
+impl Transform<f64> for Type{
+    fn transform(value: f64) -> Self {
+        Self::Float(value)
     }
 }
 
@@ -126,6 +152,8 @@ impl Transform<Vec<Type>> for Type{
     }
 }
 
+/// integer.to_json_type()
+/// Type::transform(integer)
 macro_rules! integers {
     ($($i: tt) *) => {
         $(

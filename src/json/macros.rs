@@ -5,10 +5,24 @@ use std::collections::HashMap;
 /// 
 /// ```
 /// json!{
-///     "one": 1,
-///     "two": "two"
-///     "three?": false
+///     "int": 1,
+///     "str": "1",
+///     "flaot": 10.,
+///     "bool": false,
+///     "arr": [1, "one"],
+///     "arr2": [1; 10],
+///     "null": null,
+///     "object": {
+///         "int": 1,
+///         "str": "1",
+///         "flaot": 10.,
+///         "bool": false,
+///         "arr": [1, "one"],
+///         "arr2": [1; 10],
+///         "null": null,
+///     }
 /// }
+/// ```
 #[macro_export]
 macro_rules! json {
     () => {};
@@ -21,6 +35,9 @@ macro_rules! json {
             )*
             Type::transform(j)
         }
+    };
+    ( [$e: tt; $len: tt] ) => {
+        Type::transform(vec![Type::transform($e); $len])
     };
     ( [$($e: tt), *] ) => {
         {
