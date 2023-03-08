@@ -1,7 +1,8 @@
-use std::collections::HashMap;
+use std::{collections::HashMap};
 
 use super::implement::Json;
 #[derive(Clone)]
+#[allow(unused)]
 pub enum Type{
     Null,
     Int(i128),
@@ -10,6 +11,59 @@ pub enum Type{
     Bool(bool),
     Json(HashMap<&'static str, Type>),
     Array(Vec<Type>)
+}
+
+#[allow(unused)]
+impl Type {
+    pub fn parse_int(&self) -> Result<&i128, &'static str>{
+        if let Self::Int(i) = self{
+            Result::Ok(i)
+        }else{
+            Err("is not Integer")
+        }
+    }
+    
+    pub fn parse_str(&self) -> Result<&String, &'static str>{
+        if let Self::String(s) = self{
+            Result::Ok(s)
+        }else{
+            Err("is not String")
+        }
+    }
+    
+    pub fn parse_bool(&self) -> Result<&bool, &'static str>{
+        if let Self::Bool(b) = self{
+            Result::Ok(b)
+        }else{
+            Err("is not Boolean")
+        }
+    }
+
+    pub fn parse_float(&self) -> Result<&f64, &'static str>{
+        if let Self::Float(f) = self{
+            Result::Ok(f)
+        }else{
+            Err("is not Float")
+        }
+    }
+
+    pub fn parse_array(&self) -> Result<&Vec<Type>, &'static str>{
+        if let Self::Array(v) = self{
+            Result::Ok(v)
+        }else{
+            Err("is not Array")
+        }
+    }
+    
+    pub fn parse_json(&self) -> Result<&Json, &'static str>{
+        // if let Self::Json(j) = self{
+        //     let s = j;
+        //     Result::Ok(&Json::init(s))
+        // }else{
+        //     Err("is not Json")
+        // }
+        todo!()
+    }
 }
 
 
@@ -152,6 +206,43 @@ impl Transform<Vec<Type>> for Type{
     }
 }
 
+impl std::ops::Add<Type> for Type{
+    type Output = Self;
+    fn add(self, rhs: Self) -> Self::Output {
+        if let Type::Int(i) = self{
+            if let Self::Int(j) = rhs{
+                i + j
+            }else{
+                i
+            }
+        }else{
+            if let Self::Int(j) = rhs{
+                j
+            }else{
+                0
+            }
+        }.to_json_type()
+    }
+}
+
+impl std::ops::AddAssign<Type> for Type{
+    fn add_assign(&mut self, rhs: Type) {
+        if let Type::Int(i) = self{
+            if let Self::Int(j) = rhs{
+                *self = (*i + j).to_json_type()
+            }else{
+                *self = (*i).to_json_type()
+            }
+        }else{
+            if let Self::Int(j) = rhs{
+                *self = (j).to_json_type();
+            }else{
+                *self = 0.to_json_type();
+            }
+        };
+    }
+}
+
 /// integer.to_json_type()
 /// Type::transform(integer)
 macro_rules! integers {
@@ -168,6 +259,8 @@ macro_rules! integers {
                     Type::Int(*self as i128)
                 }
             }
+
+            
         )*
     };
 }

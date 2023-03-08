@@ -1,6 +1,3 @@
-use super::types::*;
-use std::collections::HashMap;
-
 /// this json! macro
 /// 
 /// ```
@@ -24,6 +21,7 @@ use std::collections::HashMap;
 /// }
 /// ```
 #[macro_export]
+#[allow(unused)]
 macro_rules! json {
     () => {};
     ( null ) => { Type::Null };

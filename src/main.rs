@@ -1,7 +1,5 @@
 mod json;
 
-use std::collections::HashMap;
-
 use json::types::*;
 use json::implement::*;
 
@@ -14,10 +12,11 @@ fn main(){
             "d": 1,
             "f": 2
         },
-        "arr": [1; 10],
+        "arr": [1, "aa"],
         "null": null
     };
-    a["a"] = 1000.to_json_type();
+    // let b = a;
+    a["a"] += 2.to_json_type();
     println!("{a:#?}");
     println!("a: {:?}", a["a"]);
 }

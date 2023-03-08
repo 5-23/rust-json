@@ -2,13 +2,19 @@ use std::collections::HashMap;
 use super::types::{Type, ToJsonType};
 
 #[derive(Clone)]
+#[allow(unused)]
 pub struct Json{
     hash: HashMap<&'static str, Type>
 }
 
+#[allow(unused)]
 impl Json{
     pub fn new() -> Self{
         Self { hash: HashMap::new() }
+    }
+
+    pub fn init(hash: HashMap<&'static str, Type>) -> Self{
+        Self { hash }
     }
 
     pub fn set(&mut self, key: &'static str, value: Type){
@@ -19,13 +25,14 @@ impl Json{
         self.hash.get(&key)
     }
 }
-
+#[allow(unused)]
 impl ToJsonType<String> for Json{
     fn to_json_type(&self) -> Type {
         Type::Json(self.hash.clone())
     }
 }
 
+#[allow(unused)]
 impl std::fmt::Debug for Json{
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         if f.alternate(){
@@ -36,6 +43,7 @@ impl std::fmt::Debug for Json{
     }
 }
 
+#[allow(unused)]
 impl std::ops::Index<&str> for Json{
     type Output = Type;
     fn index(&self, index: &str) -> &Self::Output {
@@ -52,7 +60,7 @@ impl std::ops::Index<&str> for Json{
 //         self.hash.get(index_clone.0).unwrap_or(index.1)
 //     }
 // }
-
+#[allow(unused)]
 impl std::ops::IndexMut<&str> for Json{
     fn index_mut(&mut self, index: &str) -> &mut Self::Output {
         &mut *self.hash.get_mut(index).unwrap()
