@@ -13,6 +13,10 @@ impl Json{
         Self { hash: HashMap::new() }
     }
 
+    pub fn init(hash: HashMap<&'static str, Type>) -> Self{
+        Self { hash }
+    }
+
     pub fn set(&mut self, key: &'static str, value: Type){
         self.hash.insert(key, value);
     }

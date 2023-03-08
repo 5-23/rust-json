@@ -15,7 +15,8 @@ fn main(){
         "arr": [1, "aa"],
         "null": null
     };
-    a["a"] = 1000.to_json_type();
+    // let b = a;
+    a["a"] += 2.to_json_type();
     println!("{a:#?}");
     println!("a: {:?}", a["a"]);
 }
