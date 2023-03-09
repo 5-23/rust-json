@@ -4,7 +4,7 @@ use super::types::{Type, ToJsonType};
 #[derive(Clone)]
 #[allow(unused)]
 pub struct Json{
-    hash: HashMap<&'static str, Type>
+    hash: HashMap<String, Type>
 }
 
 #[allow(unused)]
@@ -13,16 +13,16 @@ impl Json{
         Self { hash: HashMap::new() }
     }
 
-    pub fn init(hash: HashMap<&'static str, Type>) -> Self{
+    pub fn init(hash: HashMap<String, Type>) -> Self{
         Self { hash }
     }
 
     pub fn set(&mut self, key: &'static str, value: Type){
-        self.hash.insert(key, value);
+        self.hash.insert(key.to_string(), value);
     }
 
     pub fn get(&self, key: &'static str) -> Option<&Type>{
-        self.hash.get(&key)
+        self.hash.get(&key.to_string())
     }
 }
 #[allow(unused)]

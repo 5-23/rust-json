@@ -9,7 +9,7 @@ pub enum Type{
     Float(f64),
     String(String),
     Bool(bool),
-    Json(HashMap<&'static str, Type>),
+    Json(HashMap<String, Type>),
     Array(Vec<Type>)
 }
 
@@ -56,13 +56,11 @@ impl Type {
     }
     
     pub fn parse_json(&self) -> Result<&Json, &'static str>{
-        // if let Self::Json(j) = self{
-        //     let s = j;
-        //     Result::Ok(&Json::init(s))
-        // }else{
-        //     Err("is not Json")
-        // }
-        todo!()
+        if let Self::Json(j) = self{
+            Ok(&Json::init(*j)) // TODO: bug fix
+        }else{
+            Err("is not Json")
+        }
     }
 }
 
@@ -188,8 +186,8 @@ impl Transform<f64> for Type{
 }
 
 
-impl Transform<HashMap<&'static str, Type>> for Type{
-    fn transform(value: HashMap<&'static str, Type>) -> Self {
+impl Transform<HashMap<String, Type>> for Type{
+    fn transform(value: HashMap<String, Type>) -> Self {
         Self::Json(value)
     }
 }
