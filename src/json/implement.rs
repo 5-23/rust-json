@@ -28,7 +28,7 @@ impl Json{
 #[allow(unused)]
 impl ToJsonType<String> for Json{
     fn to_json_type(&self) -> Type {
-        Type::Json(self.hash.clone())
+        Type::Json(Json::init(self.hash.clone()))
     }
 }
 

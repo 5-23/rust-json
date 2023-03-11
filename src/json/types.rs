@@ -9,7 +9,7 @@ pub enum Type{
     Float(f64),
     String(String),
     Bool(bool),
-    Json(HashMap<String, Type>),
+    Json(Json),
     Array(Vec<Type>)
 }
 
@@ -57,7 +57,7 @@ impl Type {
     
     pub fn parse_json(&self) -> Result<&Json, &'static str>{
         if let Self::Json(j) = self{
-            Ok(&Json::init(*j)) // TODO: bug fix
+            Ok(j) // TODO: bug fix
         }else{
             Err("is not Json")
         }
@@ -188,7 +188,7 @@ impl Transform<f64> for Type{
 
 impl Transform<HashMap<String, Type>> for Type{
     fn transform(value: HashMap<String, Type>) -> Self {
-        Self::Json(value)
+        Self::Json(Json::init(value))
     }
 }
 
