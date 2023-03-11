@@ -66,3 +66,17 @@ impl std::ops::IndexMut<&str> for Json{
         &mut *self.hash.get_mut(index).unwrap()
     }
 }
+
+impl std::ops::Deref for Json{
+    type Target = Self;
+    fn deref(&self) -> &Self::Target {
+        &self
+    }
+}
+
+
+impl std::ops::DerefMut for Json{
+    fn deref_mut(&mut self) -> &mut Self::Target {
+        &mut *self
+    }
+}
